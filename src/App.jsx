@@ -7,6 +7,7 @@ import Watchlist from './pages/Watchlist'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import PrivateRoute from './components/PrivateRoute'
+import Profile from './pages/Profile'
 import { Outlet } from 'react-router-dom'
 
 import { ToastContainer } from 'react-toastify'
@@ -44,11 +45,15 @@ export default function App() {
               <Watchlist />
             </PrivateRoute>
           } />
-        </Route>
-
-        {/* Standalone Pages */}
+                 {/* Standalone Pages */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="*" element={<div className="text-white text-center">404: Page not found</div>} />
+        </Route>
+
+ 
+
       </Routes>
     </Router>
     
