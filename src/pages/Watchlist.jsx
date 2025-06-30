@@ -67,7 +67,7 @@ const Watchlist = () => {
       {movies.length === 0 ? (
         <p className="text-gray-400">You haven't added any movies yet.</p>
       ) : (
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="bg-secondary p-6 rounded-xl shadow-md mb-8 grid gap-4 md:grid-cols-6 sm:grid-cols-2 grid-cols-1">
           {movies.map((movie) => (
             <div key={movie.id} className="relative">
               <MovieCard movie={movie} />

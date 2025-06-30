@@ -55,6 +55,7 @@ const Navbar = () => {
         {isLoggedIn ? (
           <>
             <li>{navLink('/watchlist', 'Watchlist')}</li>
+                        <li>{navLink('/fav', 'Favorites')}</li>
             <li>{navLink('/profile', 'Profile')}</li>
             <li>
               <button
@@ -95,6 +96,7 @@ const Navbar = () => {
                 {isLoggedIn ? (
                   <>
                     <li>{navLink('/watchlist', 'Watchlist')}</li>
+                                <li>{navLink('/fav', 'Favorites')}</li>
                     <li>{navLink('/profile', 'Profile')}</li>
                     <li>
                       <button

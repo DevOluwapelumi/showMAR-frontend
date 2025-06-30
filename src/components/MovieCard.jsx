@@ -1,6 +1,26 @@
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+
 
 const MovieCard = ({ movie }) => {
+    const [favorites, setFavorites] = useState([])
+
+     useEffect(() => {
+    const storedFavorites = JSON.parse(localStorage.getItem('favorites')) || []
+    setFavorites(storedFavorites)
+  }, [])
+
+  const toggleFavorite = (movie) => {
+    const updatedFavorites = favorites.some((fav) => fav.id === movie.id)
+      ? favorites.filter((fav) => fav.id !== movie.id)
+      : [...favorites, movie]
+
+    setFavorites(updatedFavorites)
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites))
+  }
+
+  const isFavorite = (id) => favorites.some((fav) => fav.id === id)
+
   return (
     <Link
       to={`/movie/${movie.id}`}
@@ -30,6 +50,16 @@ const MovieCard = ({ movie }) => {
       <div className="absolute top-2 left-2 bg-black bg-opacity-80 px-2 py-0.5 rounded text-yellow-400 text-xs font-medium">
         ⭐ {movie.vote_average?.toFixed(1) || 'N/A'}
       </div>
+
+       {/* Favorite Button */}
+            <button
+              onClick={() => toggleFavorite(movie)}
+              className={`absolute top-2 right-2 text-xl ${
+                isFavorite(movie.id) ? 'text-red-500' : 'text-white'
+              }`}
+            >
+              {isFavorite(movie.id) ? '❤️' : '🤍'}
+            </button>
     </Link>
   )
 }

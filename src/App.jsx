@@ -15,6 +15,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Toaster } from 'react-hot-toast'
 
 import PWAInstallPrompt from './components/PWAInstallPrompt'
+import Favorites from './pages/Favorites'
 
 
 
@@ -55,6 +56,7 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/fav" element={<Favorites />} />
 
         <Route path="*" element={<div className="text-white text-center">404: Page not found</div>} />
         </Route>
