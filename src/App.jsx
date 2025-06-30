@@ -14,6 +14,9 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Toaster } from 'react-hot-toast'
 
+import PWAInstallPrompt from './components/PWAInstallPrompt'
+
+
 
 
 // Layout Component
@@ -34,6 +37,8 @@ const Layout = () => {
 
 export default function App() {
   return (
+    <>
+      <PWAInstallPrompt />
     <Router>
       <Routes>
         {/* Shared Layout Route */}
@@ -45,10 +50,12 @@ export default function App() {
               <Watchlist />
             </PrivateRoute>
           } />
+
                  {/* Standalone Pages */}
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
+
         <Route path="*" element={<div className="text-white text-center">404: Page not found</div>} />
         </Route>
 
@@ -56,6 +63,7 @@ export default function App() {
 
       </Routes>
     </Router>
+    </>
     
   )
 }
