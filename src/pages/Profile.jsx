@@ -1,92 +1,92 @@
 // src/pages/Profile.jsx
-import { useEffect, useState } from 'react'
-import api from '../services/api'
-import toast from 'react-hot-toast'
-import confetti from 'canvas-confetti'
-import { motion } from 'framer-motion'
+import { useEffect, useState } from "react";
+import api from "../services/api";
+import toast from "react-hot-toast";
+import confetti from "canvas-confetti";
+import { motion } from "framer-motion";
 
 const Profile = () => {
-  const [user, setUser] = useState({})
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' })
-  const [loading, setLoading] = useState(true)
-  const [avatar, setAvatar] = useState(null)
-const [avatarPreview, setAvatarPreview] = useState(null)
-
-
-
+  const [user, setUser] = useState({});
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(true);
+  const [avatar, setAvatar] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await api.get('/users/me')
-        setUser(res.data)
+        const res = await api.get("/users/me");
+        setUser(res.data);
         setFormData({
-          name: res.data.name || '',
-          email: res.data.email || '',
-          password: '',
-        })
-        setLoading(false)
+          name: res.data.name || "",
+          email: res.data.email || "",
+          password: "",
+        });
+        setLoading(false);
       } catch (err) {
-        console.error(err)
-        toast.error('Failed to load user profile')
+        console.error(err);
+        toast.error("Failed to load user profile");
       }
-    }
+    };
 
-    fetchUser()
-  }, [])
+    fetchUser();
+  }, []);
 
   const confettiEffect = () => {
     confetti({
       particleCount: 150,
       spread: 80,
       origin: { y: 0.6 },
-    })
-  }
+    });
+  };
 
   const handleUpdate = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const form = new FormData()
-    form.append('name', formData.name)
-    form.append('email', formData.email)
-    form.append('password', formData.password)
-    if (avatar) form.append('avatar', avatar)
+    const form = new FormData();
+    form.append("name", formData.name);
+    form.append("email", formData.email);
+    form.append("password", formData.password);
+    if (avatar) form.append("avatar", avatar);
 
     try {
-      await api.put('/users/profile', form, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+      await api.put("/users/profile", form, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
-      
-    // ✅ Immediately update user state with new data
-    const updatedAvatar = avatar
-      ? `/uploads/${avatar.name.replace(/\s+/g, '')}` // filename logic if necessary
-      : user.avatarUrl
+      // ✅ Immediately update user state with new data
+      const updatedAvatar = avatar
+        ? `/uploads/${avatar.name.replace(/\s+/g, "")}` // filename logic if necessary
+        : user.avatarUrl;
 
-    setUser((prev) => ({
-      ...prev,
-      name: formData.name,
-      email: formData.email,
-      avatarUrl: updatedAvatar,
-    }))
+      setUser((prev) => ({
+        ...prev,
+        name: formData.name,
+        email: formData.email,
+        avatarUrl: updatedAvatar,
+      }));
 
-      toast.success('Profile updated 🎉')
-      confettiEffect()
+      toast.success("Profile updated 🎉");
+      confettiEffect();
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Update failed')
+      toast.error(err.response?.data?.message || "Update failed");
     }
-  }
+  };
 
   const handleAvatarChange = (e) => {
-  const file = e.target.files[0]
-  if (file) {
-    setAvatar(file)
-    setAvatarPreview(URL.createObjectURL(file)) // create a local preview
-  }
-}
+    const file = e.target.files[0];
+    if (file) {
+      setAvatar(file);
+      setAvatarPreview(URL.createObjectURL(file)); // create a local preview
+    }
+  };
 
-
-  if (loading) return <p className="text-white text-center mt-10">Loading profile...</p>
+  if (loading)
+    return <p className="text-white text-center mt-10">Loading profile...</p>;
 
   return (
     <section className="bg-primary min-h-screen text-white px-4 py-14">
@@ -100,7 +100,10 @@ const [avatarPreview, setAvatarPreview] = useState(null)
         <div className="flex flex-col items-center gap-2 mb-6">
           <div className="w-28 h-28 rounded-full border-4 border-accent shadow-lg overflow-hidden">
             {user.avatarUrl ? (
-              <img src={avatarPreview || `http://localhost:5000${user.avatarUrl}`} alt="Profile" className="w-full h-full object-cover"
+              <img
+                src={avatarPreview || `http://localhost:5000${user.avatarUrl}`}
+                alt="Profile"
+                className="w-full h-full object-cover"
               />
             ) : (
               <div className="w-full h-full bg-gray-700 flex items-center justify-center text-3xl">
@@ -111,7 +114,7 @@ const [avatarPreview, setAvatarPreview] = useState(null)
           <input
             type="file"
             accept="image/*"
-  onChange={handleAvatarChange}
+            onChange={handleAvatarChange}
             className="text-sm text-gray-300 file:text-accent file:mr-2"
           />
         </div>
@@ -127,11 +130,15 @@ const [avatarPreview, setAvatarPreview] = useState(null)
         {/* Form */}
         <form onSubmit={handleUpdate} className="space-y-4">
           <div>
-            <label className="block text-sm mb-1 text-gray-300">Full Name</label>
+            <label className="block text-sm mb-1 text-gray-300">
+              Full Name
+            </label>
             <input
               type="text"
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className="w-full bg-gray-800 text-white px-4 py-2 rounded outline-none focus:ring-2 focus:ring-accent"
               placeholder="Full Name"
               required
@@ -144,7 +151,9 @@ const [avatarPreview, setAvatarPreview] = useState(null)
               type="password"
               placeholder="New Password (optional)"
               value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
               className="w-full bg-gray-800 text-white px-4 py-2 rounded outline-none focus:ring-2 focus:ring-accent"
             />
           </div>
@@ -158,9 +167,7 @@ const [avatarPreview, setAvatarPreview] = useState(null)
         </form>
       </motion.div>
     </section>
-  )
-}
+  );
+};
 
-
-
-export default Profile
+export default Profile;

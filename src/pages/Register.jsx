@@ -1,27 +1,31 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import api from '../services/api'
-import toast from 'react-hot-toast'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
+import toast from "react-hot-toast";
 
 const Register = () => {
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' })
-  const navigate = useNavigate()
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const res = await api.post('/auth/register', formData)
-      localStorage.setItem('token', res.data.token)
-      toast.success('Registered & Logged in 🎉')
-      navigate('/')
+      const res = await api.post("/auth/register", formData);
+      localStorage.setItem("token", res.data.token);
+      toast.success("Registered & Logged in 🎉");
+      navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed')
+      toast.error(err.response?.data?.message || "Registration failed");
     }
-  }
+  };
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-primary px-4">
@@ -60,14 +64,17 @@ const Register = () => {
           </button>
         </form>
         <p className="mt-4 text-sm">
-          Already have an account?{' '}
-          <span className="text-accent underline cursor-pointer" onClick={() => navigate('/login')}>
+          Already have an account?{" "}
+          <span
+            className="text-accent underline cursor-pointer"
+            onClick={() => navigate("/login")}
+          >
             Login
           </span>
         </p>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

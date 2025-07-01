@@ -1,27 +1,27 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import api from '../services/api'
-import toast from 'react-hot-toast'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../services/api";
+import toast from "react-hot-toast";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' })
-  const navigate = useNavigate()
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
-  }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const res = await api.post('/auth/login', formData)
-      localStorage.setItem('token', res.data.token)
-      toast.success('Login successful!')
-      navigate('/')
+      const res = await api.post("/auth/login", formData);
+      localStorage.setItem("token", res.data.token);
+      toast.success("Login successful!");
+      navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Login failed')
+      toast.error(err.response?.data?.message || "Login failed");
     }
-  }
+  };
 
   return (
     <section className="min-h-screen flex items-center justify-center bg-primary px-4">
@@ -52,14 +52,17 @@ const Login = () => {
           </button>
         </form>
         <p className="mt-4 text-sm">
-          Don't have an account?{' '}
-          <span className="text-accent underline cursor-pointer" onClick={() => navigate('/register')}>
+          Don't have an account?{" "}
+          <span
+            className="text-accent underline cursor-pointer"
+            onClick={() => navigate("/register")}
+          >
             Register
           </span>
         </p>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
